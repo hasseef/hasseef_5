@@ -684,7 +684,8 @@
       XLSX.utils.book_append_sheet(wb,ws,'Report'); XLSX.writeFile(wb,'report.xlsx');
     };
     document.getElementById('csvUpload').addEventListener('change', async (e)=>{ const file=e.target.files[0]; if(!file) return; const text=await file.text();
-      const rows=text.split(/?
+      const rows=text.split(/
+?
 /).slice(1).filter(Boolean).map(l=>l.split(',')); // naive CSV
       const list=DB.get('projects');
       rows.forEach(r=>{ if(r.length>=6) list.push({ id:(list.at(-1)?.id||0)+1, name:r[0], sector:r[1], region:r[2], program:r[3], fund:+r[4]||0, status:r[5]||'مسودة' }); });
