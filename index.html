@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>منصة حصيف | v3.3 — واجهة ذكية تفاعلية (ملف واحد)</title>
+<title>منصة حصيف الوطنية للتكامل التنموي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -17,6 +17,7 @@
 </script>
 <style>
 :root{ --brand:#0ea5a4; --gov:#3b82f6; }
+*{box-sizing:border-box}
 body{font-family:'Tajawal',system-ui}
 .section{scroll-margin-top:84px}
 .card{border:1px solid #e2e8f0;background:#fff;border-radius:1.25rem}
@@ -32,6 +33,7 @@ body{font-family:'Tajawal',system-ui}
 .smart-chip{display:inline-flex;gap:.3rem;align-items:center;border-radius:999px;border:1px dashed #94a3b8;padding:.15rem .5rem;font-size:.72rem;color:#334155;background:#f8fafc}
 .logo{height:32px}
 @media (max-width: 640px){ .logo{height:26px} }
+.glass{backdrop-filter:saturate(160%) blur(8px); background:rgba(255,255,255,.72)}
 </style>
 </head>
 <body class="bg-steel-50 text-steel-900">
@@ -41,12 +43,13 @@ body{font-family:'Tajawal',system-ui}
   <div class="mx-auto max-w-6xl px-4">
     <div class="flex items-center justify-between gap-3">
       <div class="flex items-center gap-2">
-        <!-- ضع روابط شعاراتك أو data-uri هنا -->
-        <img src="./Vision 2030.png" class="logo" alt="Vision 2030"/>
-        <img src="./talbiya.png" class="logo" alt="Talbiya"/>
+        <!-- شعارات يسار (رؤية + تلبية) inline SVG -->
+        <img class="logo" alt="Vision 2030" src='data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="200" height="60"><rect width="200" height="60" rx="8" fill="%23eef2ff"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Tajawal,Arial" font-weight="700" font-size="18" fill="%231e40af">VISION 2030</text></svg>'/>
+        <img class="logo" alt="Talbiya" src='data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="180" height="60"><rect width="180" height="60" rx="8" fill="%23ecfeff"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Tajawal,Arial" font-weight="700" font-size="18" fill="%230f766e">TALBIYA</text></svg>'/>
       </div>
       <div class="flex items-center gap-2">
-        <img src="./hasseef.png" class="logo" alt="Hasseef"/>
+        <!-- شعار حصيف يمين inline SVG -->
+        <img class="logo" alt="Hasseef" src='data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="180" height="60"><rect width="180" height="60" rx="8" fill="%23d1fae5"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Tajawal,Arial" font-weight="900" font-size="20" fill="%23047557">حـصـيـف</text></svg>'/>
       </div>
     </div>
     <div class="mt-4 flex items-center justify-between gap-3">
@@ -125,7 +128,7 @@ body{font-family:'Tajawal',system-ui}
       </div>
       <hr class="my-6 border-steel-200"/>
       <h3 class="font-extrabold text-lg">إعدادات الحسابات (JSON)</h3>
-      <p class="text-sm text-steel-600 mt-1">تحاول القراءة من <code>config_accounts_bundle.json</code> أولًا، ثم تعرض روابط <code>config_accounts/*.json</code> كبديل.</p>
+      <p class="text-sm text-steel-600 mt-1">تحاول القراءة من <code>EMBED_BUNDLE</code> المضمّن أولًا، ثم <code>config_accounts_bundle.json</code>، ثم روابط <code>config_accounts/*.json</code>.</p>
       <div class="mt-3"><button id="reloadCfg" class="btn">إعادة التحميل</button></div>
       <ul id="cfgList" class="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm"></ul>
     </div>
@@ -190,25 +193,100 @@ body{font-family:'Tajawal',system-ui}
   </div>
 </div>
 
+<!-- =============== EMBEDDED BUNDLE (حزمة الحسابات داخل الملف) =============== -->
+<script>
+const EMBED_BUNDLE = {
+  "الأفراد": {
+    "tabs": ["المبادرات","الفرص","التطوع","التدريب","التوظيف","الاستشارات","الفعاليات","المحفظة","التقارير"],
+    "workflow": [
+      {"step":"التلقّي","role":"مشغّل","policy":"مراجعة بيانات المبادرة"},
+      {"step":"مواءمة الرؤية","role":"مدير النظام","policy":"تصنيف تلقائي + اعتماد بشري"},
+      {"step":"تعزيز علمي","role":"ممثل جهة شريكة","policy":"جامعة/مركز بحثي"},
+      {"step":"تمويل/رعاية","role":"المشرف العام","policy":"سير موافقات متعدد"},
+      {"step":"تنفيذ","role":"مشغّل","policy":"مهام وميزانية"},
+      {"step":"أثر وتقارير","role":"مراقب","policy":"مؤشرات ونشر مختصر"}
+    ]
+  },
+  "القطاع الخاص": {
+    "tabs": ["المشاريع","الوظائف","التدريب التعاوني","الرعايات","الفعاليات","الاستشارات","المرافق","المحفظة","ESG","تقارير CSRD","التقارير"],
+    "workflow": [
+      {"step":"طلب رعاية/CSR","role":"مشغّل","policy":"مطابقة معايير CSR"},
+      {"step":"مراجعة قانونية/مالية","role":"مدير النظام","policy":"نماذج عقود جاهزة"},
+      {"step":"توقيع رقمي","role":"المشرف العام","policy":"اعتماد نهائي"},
+      {"step":"متابعة الأداء","role":"مراقب","policy":"ESG/CSRD + KPIs"}
+    ]
+  },
+  "القطاع غير الربحي": {
+    "tabs": ["المبادرات","التطوع","الفعاليات","التصاريح","التدريب","الرعايات","المحفظة","التقارير"],
+    "workflow": [
+      {"step":"إدراج مشروع","role":"مشغّل","policy":"ملف أثر مختصر"},
+      {"step":"مطابقة مانحين","role":"مدير النظام","policy":"تفضيلات التمويل"},
+      {"step":"جمع التبرعات","role":"المشرف العام","policy":"محفظة وتوثيق"},
+      {"step":"التنفيذ والأثر","role":"مشغّل","policy":"تقارير شفافة"}
+    ]
+  },
+  "الجامعات": {
+    "tabs": ["الأبحاث","التدريب التعاوني","الاستشارات","الحلول","الفعاليات","المرافق","المؤشرات","المحفظة","التقارير"],
+    "workflow": [
+      {"step":"استلام طلب تعزيز","role":"ممثل جهة شريكة","policy":"تقييم مختصر"},
+      {"step":"مراجعة لجنة","role":"مدير النظام","policy":"قرار اعتماد/تحسين"},
+      {"step":"تقرير علمي","role":"مراقب","policy":"نشر الملخص"}
+    ]
+  },
+  "الجهات الحكومية": {
+    "tabs": ["التحديات","الحلول المستلمة","المشاريع","التصاريح","الفعاليات","المؤشرات","التقييمات","المحفظة","التقارير"],
+    "workflow": [
+      {"step":"تسجيل تحدٍّ","role":"مشغّل","policy":"نطاق/مؤشرات"},
+      {"step":"مطارحة حلول","role":"ممثل جهة شريكة","policy":"منصة حلول"},
+      {"step":"اعتماد وتنفيذ","role":"مدير النظام","policy":"تصريح ومتابعة"}
+    ]
+  },
+  "الجهات التمويلية": {
+    "tabs": ["طلبات التمويل","الرعايات","المحفظة","تقارير الأثر","المرافق","التقارير المالية","التقارير"],
+    "workflow": [
+      {"step":"استلام الطلب","role":"مشغّل","policy":"تصفية مبدئية"},
+      {"step":"مراجعة لجنة","role":"مدير النظام","policy":"سياسات التمويل"},
+      {"step":"اعتماد وتحويل","role":"المشرف العام","policy":"دفعات ومحفظة"},
+      {"step":"تقرير أثر","role":"مراقب","policy":"إغلاق"}
+    ]
+  },
+  "إمارة المنطقة": {
+    "tabs": ["التصاريح الأمنية","لوحة التنمية","رعايات الأمير","الفعاليات","المؤشرات","المحافظات","المحفظة","التقارير"],
+    "workflow": [
+      {"step":"طلب تصريح","role":"مشغّل","policy":"تحقق أمني"},
+      {"step":"اعتماد","role":"مدير النظام","policy":"اشتراطات تنظيمية"},
+      {"step":"متابعة","role":"مراقب","policy":"تقرير ختامي"}
+    ]
+  },
+  "هيئات التطوير": {
+    "tabs": ["برامج المدن","المشاريع","الفعاليات","التصاريح","المؤشرات","المحفظة","الشراكات","التقارير"],
+    "workflow": [
+      {"step":"مواءمة برنامج","role":"مدير النظام","policy":"أهداف المدينة"},
+      {"step":"تنفيذ","role":"مشغّل","policy":"الإنفاق والجدول"},
+      {"step":"أثر حضري","role":"مراقب","policy":"KPIs مكانية"}
+    ]
+  },
+  "إدارة المنصة": {
+    "tabs": ["الحسابات والحوكمة","الصلاحيات","مركز المكونات","الإشعارات","الدعم","التقارير","إدارة الصلاحيات والأدوار"],
+    "workflow": [
+      {"step":"إنشاء حساب","role":"المشرف العام","policy":"تهيئة وصلاحيات"},
+      {"step":"ربط تكاملي","role":"مدير النظام","policy":"API/Webhooks"},
+      {"step":"حوكمة","role":"مراقب","policy":"تدقيق وأثر"}
+    ]
+  }
+};
+</script>
+
+<!-- =============== APP SCRIPT =============== -->
 <script>
 // ===== Helpers & Router =====
 const $=(s,c=document)=>c.querySelector(s); const $$=(s,c=document)=>Array.from(c.querySelectorAll(s));
-const EMBED_ACCOUNTS = ['الأفراد','القطاع الخاص','القطاع غير الربحي','الجامعات','الجهات الحكومية','الجهات التمويلية','إمارة المنطقة','هيئات التطوير','إدارة المنصة'];
-const EMBED_TABS = {
-  'الأفراد': ['المبادرات','الفرص','التطوع','التدريب','التوظيف','الاستشارات','الفعاليات','المحفظة','التقارير'],
-  'القطاع الخاص': ['المشاريع','الوظائف','التدريب التعاوني','الرعايات','الفعاليات','الاستشارات','المرافق','المحفظة','ESG','تقارير CSRD','التقارير'],
-  'القطاع غير الربحي': ['المبادرات','التطوع','الفعاليات','التصاريح','التدريب','الرعايات','المحفظة','التقارير'],
-  'الجامعات': ['الأبحاث','التدريب التعاوني','الاستشارات','الحلول','الفعاليات','المرافق','المؤشرات','المحفظة','التقارير'],
-  'الجهات الحكومية': ['التحديات','الحلول المستلمة','المشاريع','التصاريح','الفعاليات','المؤشرات','التقييمات','المحفظة','التقارير'],
-  'الجهات التمويلية': ['طلبات التمويل','الرعايات','المحفظة','تقارير الأثر','المرافق','التقارير المالية','التقارير'],
-  'إمارة المنطقة': ['التصاريح الأمنية','لوحة التنمية','رعايات الأمير','الفعاليات','المؤشرات','المحافظات','المحفظة','التقارير'],
-  'هيئات التطوير': ['برامج المدن','المشاريع','الفعاليات','التصاريح','المؤشرات','المحفظة','الشراكات','التقارير'],
-  'إدارة المنصة': ['الحسابات والحوكمة','الصلاحيات','مركز المكونات','الإشعارات','الدعم','التقارير','إدارة الصلاحيات والأدوار']
-};
+const EMBED_ACCOUNTS = Object.keys(EMBED_BUNDLE);
+const EMBED_TABS = Object.fromEntries(Object.entries(EMBED_BUNDLE).map(([k,v])=>[k,v.tabs||[]]));
 
 const views = { home:$('#view-home'), dashboard:$('#view-dashboard'), docs:$('#view-docs'), map:$('#view-map') };
 function setRoute(route){ Object.entries(views).forEach(([k,el])=> el.classList.toggle('hidden', k!==route)); $$('[data-nav]').forEach(a=> a.setAttribute('aria-current', a.getAttribute('data-nav')===route?'page':null)); $('#routeLabel').textContent='#'+route; if(route==='map'){ tryLoadGeo(); } if(route==='docs'){ loadConfigs(); } }
-window.addEventListener('hashchange',()=>{ const r=(location.hash||'#home').replace('#',''); setRoute(r in views ? r : 'home'); });
+addEventListener('hashchange',()=>{ const r=(location.hash||'#home').replace('#',''); setRoute(r in views ? r : 'home'); });
 setRoute((location.hash||'#home').replace('#','') in views ? (location.hash||'#home').replace('#','') : 'home');
 
 // ===== State & Roles =====
@@ -460,18 +538,36 @@ async function tryLoadGeo(){
 }
 $('#reloadGeo').addEventListener('click', tryLoadGeo);
 
-// ===== Configs: Bundle first, then folder links =====
+// ===== Configs: Embedded first, then external, then folder links =====
 async function loadConfigs(){
   const el = $('#cfgList'); el.innerHTML='';
+  // 1) المضمّن أولًا
+  if (typeof EMBED_BUNDLE === 'object' && EMBED_BUNDLE){
+    const names = Object.keys(EMBED_BUNDLE);
+    el.innerHTML = names.map(n =>
+      `<li class='rounded-xl border border-steel-200 bg-white px-3 py-2'>
+         <div class='font-semibold'>${n}</div>
+         <div class='text-xs text-slate-600'>Tabs: ${(EMBED_BUNDLE[n].tabs||[]).length} — Workflow: ${(EMBED_BUNDLE[n].workflow||[]).length} خطوة</div>
+       </li>`
+    ).join('');
+    return;
+  }
+  // 2) ملف خارجي إن وُجد
   try{
     const r = await fetch('./config_accounts_bundle.json?ts='+(Date.now()));
     if(r.ok){
       const bundle = await r.json();
       const names = Object.keys(bundle);
-      el.innerHTML = names.map(n => `<li class='rounded-xl border border-steel-200 bg-white px-3 py-2'><div class='font-semibold'>${n}</div><div class='text-xs text-slate-600'>Tabs: ${(bundle[n].tabs||[]).length} — Workflow: ${(bundle[n].workflow||[]).length} خطوة</div></li>`).join('');
+      el.innerHTML = names.map(n =>
+        `<li class='rounded-xl border border-steel-200 bg-white px-3 py-2'>
+           <div class='font-semibold'>${n}</div>
+           <div class='text-xs text-slate-600'>Tabs: ${(bundle[n].tabs||[]).length} — Workflow: ${(bundle[n].workflow||[]).length} خطوة</div>
+         </li>`
+      ).join('');
       return;
     }
-  }catch(_ ){}
+  }catch(_){}
+  // 3) روابط المجلد كخيار أخير
   const known = EMBED_ACCOUNTS.map(n=> ({name:n, href:'./config_accounts/'+encodeURIComponent(n)+'.json'}));
   el.innerHTML = known.map(f=> `<li><a class="rounded-xl border border-steel-200 bg-white px-3 py-2 block hover:border-brand-600" href="${f.href}" download>${f.name}.json</a></li>`).join('');
 }
