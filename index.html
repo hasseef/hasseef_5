@@ -11,12 +11,12 @@
 <script>
   tailwind.config = { theme: { extend: { colors: {
     brand: { 50:'#eefdfb', 100:'#cff7f3', 200:'#a0eee6', 300:'#6de2d8', 400:'#36d0c7', 500:'#0ea5a4', 600:'#0f8f8d', 700:'#0f766e', 800:'#0b5953', 900:'#083f3a' },
-    gov:   { 50:'#eff6ff', 100:'#dbeafe', 300:'#93c5fd', 500:'#3b82f6', 600:'#2563eb', 700:'#1d4ed8', 800:'#1e40af' },
+    gov:   { 50:'#eff6ff', 100:'#dbeafe', 300:'#93c5fd', 500:'#2563eb', 600:'#1d4ed8', 700:'#1e40af' },
     steel: { 50:'#f8fafc', 100:'#f1f5f9', 200:'#e2e8f0', 300:'#cbd5e1', 500:'#64748b', 700:'#334155', 900:'#0f172a' }
   }, fontFamily: { sans:['Tajawal','ui-sans-serif','system-ui'] } } }, darkMode:['class','[data-theme="dark"]'] };
 </script>
 <style>
-:root{ --brand:#0ea5a4; --gov:#3b82f6; }
+:root{ --brand:#0ea5a4; --gov:#2563eb; }
 *{box-sizing:border-box}
 body{font-family:'Tajawal',system-ui}
 .section{scroll-margin-top:84px}
@@ -24,7 +24,7 @@ body{font-family:'Tajawal',system-ui}
 .badge{font-size:.72rem;border-radius:999px;background:#ecfeff;color:#065f46;padding:.15rem .6rem;border:1px solid #99f6e4}
 .kpi{border:1px solid #e2e8f0;background:#fff;border-radius:1rem;padding:.7rem}
 .kpi-label{font-size:.7rem;color:#64748b} .kpi-value{margin-top:.1rem;font-size:1.4rem;font-weight:900;color:#047857}
-.btn{padding:.5rem .8rem;border-radius:0.9rem;border:1px solid #e2e8f0;background:#fff}
+.btn{padding:.55rem .9rem;border-radius:0.9rem;border:1px solid #e2e8f0;background:#fff}
 .btn-primary{background:var(--brand);color:#fff;border-color:var(--brand)}
 .btn-gov{background:var(--gov);color:#fff;border-color:var(--gov)}
 .nav-pill{padding:.45rem .8rem;border-radius:999px;border:1px solid #e2e8f0;background:#fff}
@@ -34,6 +34,9 @@ body{font-family:'Tajawal',system-ui}
 .logo{height:32px}
 @media (max-width: 640px){ .logo{height:26px} }
 .glass{backdrop-filter:saturate(160%) blur(8px); background:rgba(255,255,255,.72)}
+.field{display:flex;flex-direction:column;gap:.35rem}
+.input{border:1px solid #e2e8f0;border-radius:.9rem;padding:.7rem .9rem;background:#fff}
+.checkbox{width:1rem;height:1rem;border:1px solid #cbd5e1;border-radius:.4rem}
 </style>
 </head>
 <body class="bg-steel-50 text-steel-900">
@@ -42,40 +45,72 @@ body{font-family:'Tajawal',system-ui}
 <header class="pt-6 pb-4">
   <div class="mx-auto max-w-6xl px-4">
     <div class="flex items-center justify-between gap-3">
-      <div class="flex items-center gap-2">
-        <!-- شعارات يسار (رؤية + تلبية) inline SVG -->
-        <img class="logo" alt="Vision 2030" src='data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="200" height="60"><rect width="200" height="60" rx="8" fill="%23eef2ff"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Tajawal,Arial" font-weight="700" font-size="18" fill="%231e40af">VISION 2030</text></svg>'/>
-        <img class="logo" alt="Talbiya" src='data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="180" height="60"><rect width="180" height="60" rx="8" fill="%23ecfeff"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Tajawal,Arial" font-weight="700" font-size="18" fill="%230f766e">TALBIYA</text></svg>'/>
+      <div class="flex items-center gap-3">
+        <!-- يسار: رؤية + تلبية (يتم استبدالهما تلقائيًا بالصور الفعلية إن وُجدت) -->
+        <img id="visionLogo" class="logo" alt="Vision 2030"
+             src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='200' height='60'><rect width='200' height='60' rx='8' fill='%23eef2ff'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Tajawal,Arial' font-weight='700' font-size='18' fill='%231e40af'>VISION 2030</text></svg>"/>
+        <img id="talbiyaLogo" class="logo" alt="Talbiya Initiative"
+             src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='180' height='60'><rect width='180' height='60' rx='8' fill='%23ecfeff'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Tajawal,Arial' font-weight='700' font-size='18' fill='%230f766e'>TALBIYA</text></svg>"/>
       </div>
       <div class="flex items-center gap-2">
-        <!-- شعار حصيف يمين inline SVG -->
-        <img class="logo" alt="Hasseef" src='data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="180" height="60"><rect width="180" height="60" rx="8" fill="%23d1fae5"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Tajawal,Arial" font-weight="900" font-size="20" fill="%23047557">حـصـيـف</text></svg>'/>
+        <!-- يمين: شعار حصيف (نُبقيه مضمّناً) -->
+        <img class="logo" alt="Hasseef"
+             src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='180' height='60'><rect width='180' height='60' rx='8' fill='%23d1fae5'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Tajawal,Arial' font-weight='900' font-size='20' fill='%23047557'>حـصـيـف</text></svg>"/>
       </div>
     </div>
+
     <div class="mt-4 flex items-center justify-between gap-3">
       <nav class="flex items-center gap-2 text-sm">
-        <a href="#home" class="nav-pill" data-nav="home">الرئيسية</a>
+        <a href="#login" class="nav-pill" data-nav="login">الدخول</a>
         <a href="#docs" class="nav-pill" data-nav="docs">الوثائق</a>
         <a href="#map" class="nav-pill" data-nav="map">الخريطة</a>
       </nav>
       <div class="flex items-center gap-2">
         <button id="toggleDark" class="btn">وضع داكن</button>
-        <a href="./config_accounts_bundle.json" class="btn btn-ghost">📁 Bundle</a>
+        <button id="logoutBtn" class="btn hidden">تسجيل خروج</button>
       </div>
     </div>
   </div>
 </header>
 
-<!-- HOME -->
-<section id="view-home" class="section">
+<!-- LOGIN (رسمي) -->
+<section id="view-login" class="section">
+  <div class="mx-auto max-w-3xl px-4">
+    <div class="card p-6 lg:p-8 shadow-md">
+      <h1 class="text-2xl lg:text-3xl font-black">تسجيل الدخول إلى منصة حصيف</h1>
+      <p class="mt-2 text-steel-700">نسخة عرض تجريبية محلية — لا يتم إرسال البيانات لخادم.</p>
+      <form id="loginForm" class="mt-6 grid md:grid-cols-2 gap-4">
+        <div class="field md:col-span-1">
+          <label class="text-sm font-semibold">اسم المستخدم</label>
+          <input id="fUser" type="text" class="input" placeholder="example@domain.sa" required />
+        </div>
+        <div class="field md:col-span-1">
+          <label class="text-sm font-semibold">كلمة المرور</label>
+          <input id="fPass" type="password" class="input" placeholder="••••••••" required />
+        </div>
+        <div class="field md:col-span-2">
+          <label class="text-sm font-semibold">اختيار الحساب</label>
+          <select id="fAccount" class="input"></select>
+        </div>
+        <div class="md:col-span-2 flex items-center justify-between">
+          <label class="flex items-center gap-2 text-sm text-steel-700"><input id="fRemember" type="checkbox" class="checkbox"/> تذكّرني على هذا المتصفح</label>
+          <button class="btn btn-primary" type="submit">دخول</button>
+        </div>
+      </form>
+      <div id="loginMsg" class="mt-3 text-sm text-red-700 hidden">تحقق من البيانات.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOME (اختيار الحساب — يظهر بعد الدخول عند تغيير الحساب) -->
+<section id="view-home" class="section hidden">
   <div class="mx-auto max-w-6xl px-4">
     <div class="card p-5 lg:p-6 shadow-md">
       <div class="flex items-start justify-between gap-3">
         <div>
-          <h1 class="text-2xl lg:text-3xl font-black">اختر حسابًا للعرض التجريبي</h1>
-          <p class="mt-2 text-steel-700">لوحات كاملة + صلاحيات صفّية + موافقات متعددة المراحل + ESG/CSRD + طبقة ذكاء محلية (تصنيف رؤية/مطابقة شركاء/تقييم مخاطر).</p>
+          <h2 class="text-2xl lg:text-3xl font-black">اختر حسابًا للعرض</h2>
+          <p class="mt-2 text-steel-700">انتقل إلى لوحات الحسابات بخدمات كاملة وصلاحيات مفعّلة وفق الدور.</p>
         </div>
-        <div class="hidden md:flex items-center gap-2 text-xs text-steel-500"><span>البيانات تُحفظ محليًا</span></div>
       </div>
       <div id="accountGrid" class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </div>
@@ -88,10 +123,10 @@ body{font-family:'Tajawal',system-ui}
     <div class="flex items-center justify-between">
       <div>
         <h2 id="dashTitle" class="text-xl lg:text-2xl font-extrabold">لوحة حساب —</h2>
-        <p id="dashLead" class="text-steel-600 mt-1">إدارة على مستوى السجلات وفق الصلاحيات + طبقة ذكاء.</p>
+        <p id="dashLead" class="text-steel-600 mt-1">إدارة سجلات وخدمات متكاملة + طبقة ذكاء محلية.</p>
       </div>
       <div class="flex items-center gap-2">
-        <a href="#home" class="btn">⬅ رجوع</a>
+        <a href="#home" class="btn">⬅ تغيير الحساب</a>
         <button id="printBtn" class="btn btn-primary">تقرير PDF</button>
       </div>
     </div>
@@ -113,22 +148,20 @@ body{font-family:'Tajawal',system-ui}
       <div class="flex items-start justify-between gap-3">
         <div>
           <h2 class="text-2xl font-black">الوثائق والعقود</h2>
-          <p class="mt-2 text-steel-600 text-sm">تقرأ الصفحة <b>Bundle</b> أولًا ثم <b>المجلد</b> كخيار احتياطي.</p>
+          <p class="mt-2 text-steel-600 text-sm">تُقرأ الحزمة المضمّنة أولًا، ثم الملف الخارجي <b>config_accounts_bundle.json</b> إن وُجد.</p>
         </div>
       </div>
       <div class="mt-4 grid grid-cols-1 gap-2">
         <!-- ارفع هذه الملفات بنفس الأسماء لتعمل أزرار التنزيل -->
-        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-emerald-500 transition" href="./📘 وثيقة النظام التنفيذي والتقني الشامل لمنصة (1).docx" download><span class="truncate">📘 وثيقة النظام التنفيذي والتقني الشامل لمنصة (1).docx</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
-        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-emerald-500 transition" href="./الملف القانوني والاستراتيجي الشامل لتفعيل الشراكات في منصة حصيف.docx" download><span class="truncate">الملف القانوني والاستراتيجي الشامل لتفعيل الشراكات في منصة حصيف.docx</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
-        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-emerald-500 transition" href="./الملف القانوني والاستراتيجي الشامل لتفعيل الشراكات في منصة حصيف (1).docx" download><span class="truncate">الملف القانوني والاستراتيجي الشامل لتفعيل الشراكات في منصة حصيف (1).docx</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
-        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-emerald-500 transition" href="./شراكة علمية استراتيجية بين الجامعات ومنصة حصيف.docx" download><span class="truncate">شراكة علمية استراتيجية بين الجامعات ومنصة حصيف.docx</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
-        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-emerald-500 transition" href="./شراكة استراتيجية وطنية مع هيئات تطوير المناطق .docx" download><span class="truncate">شراكة استراتيجية وطنية مع هيئات تطوير المناطق .docx</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
-        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-emerald-500 transition" href="./فرصة وقفية استراتيجية.pdf" download><span class="truncate">فرصة وقفية استراتيجية.pdf</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
-        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-emerald-500 transition" href="./اكواد نماذج حصيف_1.zip" download><span class="truncate">اكواد نماذج حصيف_1.zip</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
+        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-brand-600 transition" href="./📘 وثيقة النظام التنفيذي والتقني الشامل لمنصة (1).docx" download><span class="truncate">📘 وثيقة النظام التنفيذي والتقني الشامل لمنصة (1).docx</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
+        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-brand-600 transition" href="./الملف القانوني والاستراتيجي الشامل لتفعيل الشراكات في منصة حصيف.docx" download><span class="truncate">الملف القانوني والاستراتيجي الشامل لتفعيل الشراكات في منصة حصيف.docx</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
+        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-brand-600 transition" href="./الملف القانوني والاستراتيجي الشامل لتفعيل الشراكات في منصة حصيف (1).docx" download><span class="truncate">الملف القانوني والاستراتيجي الشامل لتفعيل الشراكات في منصة حصيف (1).docx</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
+        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-brand-600 transition" href="./شراكة علمية استراتيجية بين الجامعات ومنصة حصيف.docx" download><span class="truncate">شراكة علمية استراتيجية بين الجامعات ومنصة حصيف.docx</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
+        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-brand-600 transition" href="./شراكة استراتيجية وطنية مع هيئات تطوير المناطق .docx" download><span class="truncate">شراكة استراتيجية وطنية مع هيئات تطوير المناطق .docx</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
+        <a class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 hover:border-brand-600 transition" href="./فرصة وقفية استراتيجية.pdf" download><span class="truncate">فرصة وقفية استراتيجية.pdf</span><span class="text-xs rounded-full bg-emerald-50 text-emerald-700 px-3 py-1">تنزيل</span></a>
       </div>
       <hr class="my-6 border-steel-200"/>
       <h3 class="font-extrabold text-lg">إعدادات الحسابات (JSON)</h3>
-      <p class="text-sm text-steel-600 mt-1">تحاول القراءة من <code>EMBED_BUNDLE</code> المضمّن أولًا، ثم <code>config_accounts_bundle.json</code>، ثم روابط <code>config_accounts/*.json</code>.</p>
       <div class="mt-3"><button id="reloadCfg" class="btn">إعادة التحميل</button></div>
       <ul id="cfgList" class="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm"></ul>
     </div>
@@ -187,17 +220,17 @@ body{font-family:'Tajawal',system-ui}
             <option>ممثل جهة شريكة</option>
           </select>
         </label>
-        <label class="text-sm">المسار: <span id="routeLabel" class="font-extrabold text-brand-600">#home</span></label>
+        <label class="text-sm">المسار: <span id="routeLabel" class="font-extrabold text-brand-600">#login</span></label>
       </div>
     </div>
   </div>
 </div>
 
-<!-- =============== EMBEDDED BUNDLE (حزمة الحسابات داخل الملف) =============== -->
+<!-- =============== EMBEDDED BUNDLE (الحسابات وفق الوثيقة) =============== -->
 <script>
 const EMBED_BUNDLE = {
   "الأفراد": {
-    "tabs": ["المبادرات","الفرص","التطوع","التدريب","التوظيف","الاستشارات","الفعاليات","المحفظة","التقارير"],
+    "tabs": ["المبادرات","الفرص","التطوع","التدريب","التوظيف","الفعاليات","المحفظة","التقارير"],
     "workflow": [
       {"step":"التلقّي","role":"مشغّل","policy":"مراجعة بيانات المبادرة"},
       {"step":"مواءمة الرؤية","role":"مدير النظام","policy":"تصنيف تلقائي + اعتماد بشري"},
@@ -208,7 +241,7 @@ const EMBED_BUNDLE = {
     ]
   },
   "القطاع الخاص": {
-    "tabs": ["المشاريع","الوظائف","التدريب التعاوني","الرعايات","الفعاليات","الاستشارات","المرافق","المحفظة","ESG","تقارير CSRD","التقارير"],
+    "tabs": ["المشاريع","الرعايات","الوظائف","التدريب التعاوني","الاستشارات","المرافق","ESG","تقارير CSRD","المحفظة","التقارير"],
     "workflow": [
       {"step":"طلب رعاية/CSR","role":"مشغّل","policy":"مطابقة معايير CSR"},
       {"step":"مراجعة قانونية/مالية","role":"مدير النظام","policy":"نماذج عقود جاهزة"},
@@ -217,7 +250,7 @@ const EMBED_BUNDLE = {
     ]
   },
   "القطاع غير الربحي": {
-    "tabs": ["المبادرات","التطوع","الفعاليات","التصاريح","التدريب","الرعايات","المحفظة","التقارير"],
+    "tabs": ["المبادرات","طلبات التمويل","الرعايات","التطوع","التدريب","الفعاليات","التصاريح","المحفظة","التقارير"],
     "workflow": [
       {"step":"إدراج مشروع","role":"مشغّل","policy":"ملف أثر مختصر"},
       {"step":"مطابقة مانحين","role":"مدير النظام","policy":"تفضيلات التمويل"},
@@ -226,7 +259,7 @@ const EMBED_BUNDLE = {
     ]
   },
   "الجامعات": {
-    "tabs": ["الأبحاث","التدريب التعاوني","الاستشارات","الحلول","الفعاليات","المرافق","المؤشرات","المحفظة","التقارير"],
+    "tabs": ["الأبحاث","الاستشارات","التدريب التعاوني","الحلول","المرافق","الفعاليات","المؤشرات","المحفظة","التقارير"],
     "workflow": [
       {"step":"استلام طلب تعزيز","role":"ممثل جهة شريكة","policy":"تقييم مختصر"},
       {"step":"مراجعة لجنة","role":"مدير النظام","policy":"قرار اعتماد/تحسين"},
@@ -242,7 +275,7 @@ const EMBED_BUNDLE = {
     ]
   },
   "الجهات التمويلية": {
-    "tabs": ["طلبات التمويل","الرعايات","المحفظة","تقارير الأثر","المرافق","التقارير المالية","التقارير"],
+    "tabs": ["طلبات التمويل","الرعايات","المحفظة","تقارير الأثر","التقارير المالية","التقارير"],
     "workflow": [
       {"step":"استلام الطلب","role":"مشغّل","policy":"تصفية مبدئية"},
       {"step":"مراجعة لجنة","role":"مدير النظام","policy":"سياسات التمويل"},
@@ -267,7 +300,7 @@ const EMBED_BUNDLE = {
     ]
   },
   "إدارة المنصة": {
-    "tabs": ["الحسابات والحوكمة","الصلاحيات","مركز المكونات","الإشعارات","الدعم","التقارير","إدارة الصلاحيات والأدوار"],
+    "tabs": ["الحسابات والحوكمة","الصلاحيات","التكامل والبيانات","الإشعارات","الدعم","التقارير","إدارة الصلاحيات والأدوار"],
     "workflow": [
       {"step":"إنشاء حساب","role":"المشرف العام","policy":"تهيئة وصلاحيات"},
       {"step":"ربط تكاملي","role":"مدير النظام","policy":"API/Webhooks"},
@@ -284,15 +317,20 @@ const $=(s,c=document)=>c.querySelector(s); const $$=(s,c=document)=>Array.from(
 const EMBED_ACCOUNTS = Object.keys(EMBED_BUNDLE);
 const EMBED_TABS = Object.fromEntries(Object.entries(EMBED_BUNDLE).map(([k,v])=>[k,v.tabs||[]]));
 
-const views = { home:$('#view-home'), dashboard:$('#view-dashboard'), docs:$('#view-docs'), map:$('#view-map') };
-function setRoute(route){ Object.entries(views).forEach(([k,el])=> el.classList.toggle('hidden', k!==route)); $$('[data-nav]').forEach(a=> a.setAttribute('aria-current', a.getAttribute('data-nav')===route?'page':null)); $('#routeLabel').textContent='#'+route; if(route==='map'){ tryLoadGeo(); } if(route==='docs'){ loadConfigs(); } }
-addEventListener('hashchange',()=>{ const r=(location.hash||'#home').replace('#',''); setRoute(r in views ? r : 'home'); });
-setRoute((location.hash||'#home').replace('#','') in views ? (location.hash||'#home').replace('#','') : 'home');
+const views = { login:$('#view-login'), home:$('#view-home'), dashboard:$('#view-dashboard'), docs:$('#view-docs'), map:$('#view-map') };
+function setRoute(route){
+  Object.entries(views).forEach(([k,el])=> el.classList.toggle('hidden', k!==route));
+  $$('[data-nav]').forEach(a=> a.setAttribute('aria-current', a.getAttribute('data-nav')===route?'page':null));
+  $('#routeLabel').textContent='#'+route;
+  if(route==='map'){ tryLoadGeo(); }
+  if(route==='docs'){ loadConfigs(); }
+}
+addEventListener('hashchange',()=>{ const r=(location.hash||'#login').replace('#',''); setRoute(r in views ? r : 'login'); });
+setRoute((location.hash||'#login').replace('#','') in views ? (location.hash||'#login').replace('#','') : 'login');
 
 // ===== State & Roles =====
-const KEY='hp_portal_v3_3';
-let state = (()=>{ try{ return JSON.parse(localStorage.getItem(KEY)); }catch(_ ){} })() || { account:null, rows:{}, roles:{ map:{} }, currentRole:'المشرف العام' };
-$('#roleSelect').value = state.currentRole;
+const KEY='hp_portal_v4_0';
+let state = (()=>{ try{ return JSON.parse(localStorage.getItem(KEY)); }catch(_ ){} })() || { account:null, rows:{}, roles:{ map:{} }, currentRole:'المشرف العام', session:null };
 function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
 const ROLES = ['المشرف العام','مدير النظام','مشغّل','مراقب','زائر','ممثل جهة شريكة'];
 const PERMS = ['إدارة الحسابات','اعتماد المشاريع','إدارة الرعايات','تعديل البيانات','توليد التقارير','وصول API'];
@@ -304,10 +342,30 @@ const DEFAULT_ROLE_MAP = {
   'زائر':             [],
   'ممثل جهة شريكة':   ['اعتماد المشاريع','توليد التقارير']
 };
-ROLES.forEach(r=>{ state.roles.map[r] = state.roles.map[r] || {}; PERMS.forEach(p=> state.roles.map[r][p] = state.roles.map[r][p] ?? DEFAULT_ROLE_MAP[r].includes(p)); }); save();
+ROLES.forEach(r=>{ state.roles.map[r] = state.roles.map[r] || {}; PERMS.forEach(p=> state.roles.map[r][p] = state.roles.map[r][p] ?? DEFAULT_ROLE_MAP[r].includes(p)); });
+$('#roleSelect').value = state.currentRole;
 function can(perm){ return !!(state.roles.map?.[state.currentRole]?.[perm]); }
 
-// ===== Accounts Home =====
+// ===== Login Form =====
+const fAccount = $('#fAccount'); fAccount.innerHTML = EMBED_ACCOUNTS.map(a=> `<option>${a}</option>`).join('');
+$('#loginForm').addEventListener('submit',(e)=>{
+  e.preventDefault();
+  const user = $('#fUser').value.trim();
+  const pass = $('#fPass').value.trim();
+  const acc  = $('#fAccount').value;
+  if(!user || !pass){ $('#loginMsg').classList.remove('hidden'); return; }
+  state.session = { user, acc, role: state.currentRole, ts: Date.now(), remember: $('#fRemember').checked };
+  state.account = acc; save();
+  $('#logoutBtn').classList.remove('hidden');
+  location.hash = '#dashboard';
+});
+$('#logoutBtn').addEventListener('click', ()=>{
+  state.session=null; state.account=null; save();
+  $('#logoutBtn').classList.add('hidden');
+  location.hash='#login';
+});
+
+// ===== Accounts Home (optional switching) =====
 function buildAccountGrid(list){
   const grid=$('#accountGrid');
   grid.innerHTML = list.map(n=>`
@@ -323,8 +381,13 @@ function buildAccountGrid(list){
 buildAccountGrid(EMBED_ACCOUNTS);
 
 // ===== Dashboard & Tables =====
-function openDashboard(name){ state.account=name; save(); $('#dashTitle').textContent='لوحة حساب — '+name; buildTabs(name); refreshKPIs(); }
-
+function openDashboard(name){
+  if(!state.session){ location.hash='#login'; return; }
+  state.account=name||state.session.acc; save();
+  $('#dashTitle').textContent='لوحة حساب — '+state.account;
+  buildTabs(state.account); refreshKPIs();
+  setRoute('dashboard');
+}
 function getSchema(tab){
   switch(tab){
     case 'المبادرات': case 'المشاريع': return [{name:'title',label:'العنوان'},{name:'owner',label:'الجهة'},{name:'budget',label:'الميزانية (ر.س)'},{name:'region',label:'المنطقة'},{name:'status',label:'الحالة'}];
@@ -339,18 +402,19 @@ function getSchema(tab){
     case 'المحفظة': return [{name:'benef',label:'الجهة المستفيدة'},{name:'amount',label:'المبلغ (ر.س)'},{name:'kind',label:'نوع العملية'},{name:'note',label:'وصف'}];
     case 'ESG': return [{name:'pillar',label:'المحور'},{name:'metric',label:'المؤشر'},{name:'value',label:'القيمة'},{name:'unit',label:'الوحدة'}];
     case 'تقارير CSRD': return [{name:'topic',label:'الموضوع'},{name:'req',label:'المطلب'},{name:'status',label:'الحالة'},{name:'note',label:'ملاحظة'}];
-    case 'إدارة الصلاحيات والأدوار': return [];
+    case 'التكامل والبيانات': return [{name:'endpoint',label:'نقطة التكامل'},{name:'method',label:'الطريقة'},{name:'scope',label:'النطاق'},{name:'status',label:'الحالة'}];
+    case 'التقييمات': return [{name:'subject',label:'الموضوع'},{name:'score',label:'التقييم'},{name:'date',label:'التاريخ'},{name:'note',label:'ملاحظة'}];
+    case 'الشراكات': return [{name:'partner',label:'الشريك'},{name:'type',label:'النوع'},{name:'date',label:'التاريخ'},{name:'status',label:'الحالة'}];
+    case 'الحسابات والحوكمة': return [{name:'account',label:'الحساب'},{name:'owner',label:'المالك'},{name:'status',label:'الحالة'},{name:'note',label:'ملاحظة'}];
     default: return [{name:'title',label:'العنوان'},{name:'note',label:'وصف'},{name:'date',label:'التاريخ'},{name:'status',label:'الحالة'}];
   }
 }
-
 function panelHeaderActions(tab, key){
   const addBtn = `<button class="btn btn-primary" data-add="${key}" ${!can('تعديل البيانات')?'disabled':''}>+ إضافة</button>`;
   const exportBtn = `<button class="btn" data-export="${key}" ${!can('توليد التقارير')?'disabled':''}>تصدير CSV</button>`;
   const wfBtn = (tab==='طلبات التمويل'||tab==='الرعايات') ? `<button class="btn btn-gov" data-wf="${key}" ${!can('إدارة الرعايات')?'disabled':''}>سير الموافقات</button>` : '';
   return `${wfBtn}${addBtn}${exportBtn}`;
 }
-
 function renderSmartChip(row){
   const tags = (row._vision||[]).map(v=>v.code).join('·') || '—';
   const top = (row._matches||[])[0];
@@ -358,7 +422,6 @@ function renderSmartChip(row){
   const risk = row._risk ? row._risk.level : '—';
   return `<span class="smart-chip">🎯 ${tags} • 🤝 ${partner} • ⚠️ ${risk}</span>`;
 }
-
 function panelTemplate(acc,tab){
   if(tab==='إدارة الصلاحيات والأدوار') return rolesPanel();
   const key=acc+'::'+tab; const schema=getSchema(tab);
@@ -382,11 +445,11 @@ function panelTemplate(acc,tab){
     </div>
   </div>`;
 }
-
 function rolesPanel(){
-  const th = ['صلاحية/دور'].concat(ROLES).map(h=> `<th class="px-3 py-2 text-right">${h}</th>`).join('');
+  const RO = ['المشرف العام','مدير النظام','مشغّل','مراقب','زائر','ممثل جهة شريكة'];
+  const th = ['صلاحية/دور'].concat(RO).map(h=> `<th class="px-3 py-2 text-right">${h}</th>`).join('');
   const rows = PERMS.map(p=>{
-    const tds = ROLES.map(r=>{
+    const tds = RO.map(r=>{
       const checked = state.roles.map[r]?.[p] ? 'checked' : '';
       return `<td class="px-3 py-2"><input type="checkbox" data-role="${r}" data-perm="${p}" ${checked}></td>`;
     }).join('');
@@ -410,7 +473,6 @@ function rolesPanel(){
     <p class="mt-3 text-xs text-steel-500">تُحفظ الصلاحيات محليًا — وتنعكس مباشرة على الأزرار وإجراءات الصفوف.</p>
   </div>`;
 }
-
 function buildTabs(acc){
   const tabs=(EMBED_TABS[acc]||[]);
   const tabsWrap=$('#tabs'), panels=$('#panels');
@@ -424,7 +486,6 @@ function switchTab(tab){
   $$('#tabs .tab-btn').forEach(b=> b.classList.toggle('btn-primary', b.dataset.tab===tab));
   $$('#panels .panel').forEach(p=> p.classList.toggle('hidden', p.dataset.panel!==tab));
 }
-
 function bindPanelHandlers(){
   $$('[data-add]').forEach(btn=> btn.addEventListener('click',()=>{
     if(!can('تعديل البيانات')) return alert('صلاحية غير كافية.');
@@ -447,7 +508,6 @@ function bindPanelHandlers(){
   }
   Object.keys(state.rows).forEach(k=> renderTable(k, false));
 }
-
 function renderTable(key, enrich){
   const el=document.getElementById('tbl::'+key); if(!el) return;
   const list=state.rows[key]||[]; const tab=key.split('::')[1]; const schema=getSchema(tab);
@@ -464,8 +524,7 @@ function renderTable(key, enrich){
     </div></td></tr>`;
   }).join('')
   : `<tr><td class="py-4 text-center text-steel-500" colspan="${schema.length+1}">لا توجد بيانات</td></tr>`;
-
-  $$(`[data-edit^="${key}::"]`).forEach(b=> b.onclick = ()=>{ if(!can('تعديل البيانات')) return alert('صلاحية غير كافية.'); const idx = +b.dataset.edit.split('::').pop(); const row = (state.rows[key]||[])[idx]; if(!row) return; schema.forEach(s=>{ row[s.name] = prompt('تعديل '+s.label, row[s.name]||'') ?? row[s.name]; }); if(tab==='المبادرات'||tab==='المشاريع') smartEnrich(row); save(); renderTable(key, false); refreshKPIs(); });
+  $$(`[data-edit^="${key}::"]`).forEach(b=> b.onclick = ()=>{ if(!can('تعديل البيانات')) return alert('صلاحية غير كافية.'); const idx = +b.dataset.edit.split('::').pop(); const row = (state.rows[key]||[])[idx]; if(!row) return; const schema=getSchema(tab); schema.forEach(s=>{ row[s.name] = prompt('تعديل '+s.label, row[s.name]||'') ?? row[s.name]; }); if(tab==='المبادرات'||tab==='المشاريع') smartEnrich(row); save(); renderTable(key, false); refreshKPIs(); });
   $$(`[data-del^="${key}::"]`).forEach(b=> b.onclick = ()=>{ if(!can('تعديل البيانات')) return alert('صلاحية غير كافية.'); const idx = +b.dataset.del.split('::').pop(); if(confirm('تأكيد الحذف؟')){ (state.rows[key]||[]).splice(idx,1); save(); renderTable(key, false); refreshKPIs(); } });
 }
 
@@ -538,10 +597,9 @@ async function tryLoadGeo(){
 }
 $('#reloadGeo').addEventListener('click', tryLoadGeo);
 
-// ===== Configs: Embedded first, then external, then folder links =====
+// ===== Configs: Embedded first, then external =====
 async function loadConfigs(){
   const el = $('#cfgList'); el.innerHTML='';
-  // 1) المضمّن أولًا
   if (typeof EMBED_BUNDLE === 'object' && EMBED_BUNDLE){
     const names = Object.keys(EMBED_BUNDLE);
     el.innerHTML = names.map(n =>
@@ -552,7 +610,6 @@ async function loadConfigs(){
     ).join('');
     return;
   }
-  // 2) ملف خارجي إن وُجد
   try{
     const r = await fetch('./config_accounts_bundle.json?ts='+(Date.now()));
     if(r.ok){
@@ -567,9 +624,7 @@ async function loadConfigs(){
       return;
     }
   }catch(_){}
-  // 3) روابط المجلد كخيار أخير
-  const known = EMBED_ACCOUNTS.map(n=> ({name:n, href:'./config_accounts/'+encodeURIComponent(n)+'.json'}));
-  el.innerHTML = known.map(f=> `<li><a class="rounded-xl border border-steel-200 bg-white px-3 py-2 block hover:border-brand-600" href="${f.href}" download>${f.name}.json</a></li>`).join('');
+  el.innerHTML = `<li class='text-sm text-steel-600'>لا توجد حزمة خارجية.</li>`;
 }
 $('#reloadCfg').addEventListener('click', loadConfigs);
 
@@ -591,23 +646,70 @@ function seed(){
       case 'المحفظة': push(tab,[{benef:'مشروع تمكين الشباب',amount:'200000',kind:'تمويل',note:'دفعة أولى'}]); break;
       case 'ESG': push(tab,[{pillar:'E',metric:'انبعاثات CO2',value:'34',unit:'طن'},{pillar:'S',metric:'ساعات تدريب',value:'420',unit:'ساعة'}]); break;
       case 'تقارير CSRD': push(tab,[{topic:'E1-Climate',req:'إفصاح الانبعاثات',status:'مسودة',note:'ينقص مراجعة قانونية'}]); break;
+      case 'التكامل والبيانات': push(tab,[{endpoint:'/api/projects',method:'GET',scope:'قراءة',status:'مفعّل'},{endpoint:'/api/wallet',method:'POST',scope:'تحويل',status:'مقيّد'}]); break;
       default: push(tab,[{title:tab+' — سجل تجريبي',note:'...',date:'2025-10-19',status:'—'}]);
     }
   });
-  // Enrich initiatives/projects with Smart Core
   Object.keys(state.rows).forEach(k=>{ if(k.startsWith(acc+'::') && (k.endsWith('المبادرات')||k.endsWith('المشاريع'))){ (state.rows[k]||[]).forEach(smartEnrich); } });
   save(); buildTabs(acc); refreshKPIs();
 }
-function clearAll(){ state={account:state.account,rows:{},roles:state.roles||{},currentRole:state.currentRole||'المشرف العام'}; save(); buildTabs(state.account); refreshKPIs(); }
+function clearAll(){ state={account:state.account,rows:{},roles:state.roles||{},currentRole:state.currentRole||'المشرف العام',session:state.session}; save(); buildTabs(state.account); refreshKPIs(); }
 $('#seedBtn').addEventListener('click', seed);
 $('#clearBtn').addEventListener('click', clearAll);
 $('#printBtn')?.addEventListener('click', ()=> window.print());
 $('#toggleDark').addEventListener('click',()=>{ const on=!document.documentElement.hasAttribute('data-theme'); document.documentElement.toggleAttribute('data-theme',on); });
 $('#roleSelect').addEventListener('change',(e)=>{ state.currentRole=e.target.value; save(); if(state.account){ buildTabs(state.account); } });
 
+// ===== Table render (edit/delete already bound in bindPanelHandlers) =====
+function renderTable(key, enrich){
+  const el=document.getElementById('tbl::'+key); if(!el) return;
+  const list=state.rows[key]||[]; const tab=key.split('::')[1]; const schema=getSchema(tab);
+  if(enrich && (tab==='المبادرات'||tab==='المشاريع')){ const row = list[list.length-1]; if(row) smartEnrich(row); }
+  el.innerHTML = list.length ? list.map((r,idx)=>{
+    const tds = schema.map(s=>`<td class='py-2'>${r[s.name]||''}</td>`).join('');
+    const canEdit = can('تعديل البيانات');
+    const chip = (tab==='المبادرات'||tab==='المشاريع') ? `<div class='mt-1'>${renderSmartChip(r)}</div>` : '';
+    const editBtn = `<button class="action edit" data-edit="${key}::${idx}" ${!canEdit?'disabled':''}>تعديل</button>`;
+    const delBtn  = `<button class="action del" data-del="${key}::${idx}" ${!canEdit?'disabled':''}>حذف</button>`;
+    return `<tr><td colspan="100%"><div class="grid md:grid-cols-12 gap-2 items-start">
+        <div class="md:col-span-9"><table class="w-full"><tr>${tds}<td class="py-2 flex items-center gap-3">${editBtn}${delBtn}</td></tr></table>${chip}</div>
+        <div class="md:col-span-3 hidden md:block"></div>
+    </div></td></tr>`;
+  }).join('')
+  : `<tr><td class="py-4 text-center text-steel-500" colspan="${schema.length+1}">لا توجد بيانات</td></tr>`;
+  $$(`[data-edit^="${key}::"]`).forEach(b=> b.onclick = ()=>{ if(!can('تعديل البيانات')) return alert('صلاحية غير كافية.'); const idx = +b.dataset.edit.split('::').pop(); const row = (state.rows[key]||[])[idx]; if(!row) return; const schema=getSchema(tab); schema.forEach(s=>{ row[s.name] = prompt('تعديل '+s.label, row[s.name]||'') ?? row[s.name]; }); if(tab==='المبادرات'||tab==='المشاريع') smartEnrich(row); save(); renderTable(key, false); refreshKPIs(); });
+  $$(`[data-del^="${key}::"]`).forEach(b=> b.onclick = ()=>{ if(!can('تعديل البيانات')) return alert('صلاحية غير كافية.'); const idx = +b.dataset.del.split('::').pop(); if(confirm('تأكيد الحذف؟')){ (state.rows[key]||[]).splice(idx,1); save(); renderTable(key, false); refreshKPIs(); } });
+}
+
 // Boot
-function buildAccountAndMaybeOpen(){ buildAccountGrid(EMBED_ACCOUNTS); if(state.account){ openDashboard(state.account); } }
+function buildAccountAndMaybeOpen(){
+  buildAccountGrid(EMBED_ACCOUNTS);
+  if(state.session){ $('#logoutBtn').classList.remove('hidden'); $('#fUser').value = state.session.user; $('#fAccount').value = state.session.acc; }
+  if(state.session && state.account){ openDashboard(state.account); }
+}
 buildAccountAndMaybeOpen();
+
+/* ======== تحميل الشعارات الفعلية (Vision 2030 / Talbiya) إن وُجدت في الجذر ======== */
+function tryLogos(){
+  const trials = {
+    visionLogo: ['Vision 2030.png','vision2030.png','vision_2030.png','vision2030.svg'],
+    talbiyaLogo:['talbiya.png','Talbiya.png','talbiya.svg','talbiya-logo.png']
+  };
+  Object.entries(trials).forEach(([id, list])=>{
+    const img = document.getElementById(id); if(!img) return;
+    if(img.dataset.bound) return; img.dataset.bound = '1';
+    let i = 0; const fallback = img.src;
+    const tryNext = ()=>{
+      if(i >= list.length){ img.src = fallback; return; }
+      const candidate = list[i++]; const test = new Image();
+      test.onload = ()=> { img.src = candidate; };
+      test.onerror = tryNext;
+      test.src = candidate + '?v=' + Date.now(); // لتجاوز الكاش
+    };
+    tryNext();
+  });
+}
+document.addEventListener('DOMContentLoaded', tryLogos);
 </script>
 
 </body>
